@@ -7,6 +7,7 @@ const plugins = [react(), tailwindcss()];
 
 export default defineConfig({
   plugins,
+  base: "/tnfd-forestry-map/",
   resolve: {
     alias: {
       "@": path.resolve(import.meta.dirname, "client", "src"),
