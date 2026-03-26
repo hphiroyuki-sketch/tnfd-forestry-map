@@ -46,6 +46,14 @@ export function MapView({
       }
     ).addTo(map.current);
 
+    // Force correct layout measurement after DOM is ready
+    // This fixes marker displacement issues when the container
+    // size isn't fully resolved at initialization time.
+    const m = map.current;
+    requestAnimationFrame(() => {
+      m.invalidateSize();
+    });
+
     if (onMapReady) {
       onMapReady(map.current);
     }
@@ -59,6 +67,6 @@ export function MapView({
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div ref={mapContainer} className={cn("w-full h-[500px]", className)} />
+    <div ref={mapContainer} className={cn("w-full h-full", className)} />
   );
 }

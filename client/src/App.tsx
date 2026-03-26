@@ -1,20 +1,22 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import NotFound from "@/pages/NotFound";
-import { Route, Switch } from "wouter";
+import { Router, Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 
+// Detect base path from Vite config or default to "/"
+const BASE_PATH = import.meta.env.BASE_URL?.replace(/\/$/, "") || "";
 
-function Router() {
+function AppRouter() {
   return (
-    <Switch>
-      <Route path={"/"} component={Home} />
-      <Route path={"/404"} component={NotFound} />
-      {/* Final fallback route */}
-      <Route component={NotFound} />
-    </Switch>
+    <Router base={BASE_PATH}>
+      <Switch>
+        <Route path={"/"} component={Home} />
+        {/* All paths show Home since this is a single-page map app */}
+        <Route component={Home} />
+      </Switch>
+    </Router>
   );
 }
 
@@ -32,7 +34,7 @@ function App() {
       >
         <TooltipProvider>
           <Toaster />
-          <Router />
+          <AppRouter />
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>
@@ -40,3 +42,4 @@ function App() {
 }
 
 export default App;
+

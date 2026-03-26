@@ -176,7 +176,42 @@
   }
 }
 
+/* ==========================================================================
+   Leaflet Critical Overrides
+   Prevent Tailwind CSS from overriding Leaflet's positioning styles.
+   Without these, markers and tiles get displaced on pan/zoom.
+   ========================================================================== */
+
+/* Ensure Leaflet container properly contains its content */
+.leaflet-container {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Prevent Tailwind's image rules from affecting tile images */
+.leaflet-container img {
+  max-width: none !important;
+  max-height: none !important;
+}
+
+/* Prevent Tailwind border/box-sizing from displacing tiles */
+.leaflet-tile-pane,
+.leaflet-overlay-pane,
+.leaflet-marker-pane,
+.leaflet-tooltip-pane,
+.leaflet-popup-pane,
+.leaflet-shadow-pane {
+  pointer-events: none;
+}
+.leaflet-marker-pane > *,
+.leaflet-overlay-pane > svg,
+.leaflet-overlay-pane > canvas,
+.leaflet-popup-pane > * {
+  pointer-events: auto;
+}
+
 /* Leaflet Custom Styles */
+
 .dark-popup .leaflet-popup-content-wrapper {
   background: rgba(23, 23, 30, 0.95);
   color: #e2e8f0;
