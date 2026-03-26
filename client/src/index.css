@@ -179,36 +179,47 @@
 /* ==========================================================================
    Leaflet Critical Overrides
    Prevent Tailwind CSS from overriding Leaflet's positioning styles.
-   Without these, markers and tiles get displaced on pan/zoom.
+   Root cause: Tailwind sets `box-sizing: border-box` and `transition: all`
+   on all elements, which breaks Leaflet's tile/overlay positioning.
    ========================================================================== */
 
-/* Ensure Leaflet container properly contains its content */
-.leaflet-container {
-  width: 100% !important;
-  height: 100% !important;
+/* Reset box-sizing for ALL Leaflet internals back to content-box */
+.leaflet-container,
+.leaflet-container *,
+.leaflet-container *::before,
+.leaflet-container *::after {
+  box-sizing: content-box !important;
+}
+
+/* Kill all transitions inside the map to prevent drag/zoom lag */
+.leaflet-container * {
+  transition: none !important;
 }
 
 /* Prevent Tailwind's image rules from affecting tile images */
 .leaflet-container img {
   max-width: none !important;
   max-height: none !important;
+  width: auto !important;
+  height: auto !important;
+  border-style: none !important;
+  padding: 0 !important;
+  border-width: 0 !important;
 }
 
-/* Prevent Tailwind border/box-sizing from displacing tiles */
-.leaflet-tile-pane,
-.leaflet-overlay-pane,
-.leaflet-marker-pane,
-.leaflet-tooltip-pane,
-.leaflet-popup-pane,
-.leaflet-shadow-pane {
-  pointer-events: none;
+/* Ensure tile borders don't cause displacement */
+.leaflet-tile {
+  border: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
-.leaflet-marker-pane > *,
-.leaflet-overlay-pane > svg,
-.leaflet-overlay-pane > canvas,
-.leaflet-popup-pane > * {
-  pointer-events: auto;
+
+/* Reset SVG overlays used for circle markers and rectangles */
+.leaflet-container svg {
+  max-width: none !important;
+  max-height: none !important;
 }
+
 
 /* Leaflet Custom Styles */
 
