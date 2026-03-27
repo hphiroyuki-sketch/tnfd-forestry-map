@@ -7,7 +7,6 @@
 import { useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 import L from "leaflet";
-import "leaflet/dist/leaflet.css";
 
 interface MapViewProps {
   className?: string;
