@@ -1,7 +1,7 @@
 /**
  * Leaflet Map Integration for TNFD Priority Map
- * - CartoDB Dark Matter tiles (no API key required)
- * - Drop-in replacement for Google Maps version
+ * - Google Maps-style light tiles (no API key required)
+ * - Canvas renderer to prevent marker displacement from CSS conflicts
  */
 
 import { useEffect, useRef } from "react";
@@ -32,22 +32,26 @@ export function MapView({
       zoom: initialZoom,
       zoomControl: true,
       attributionControl: true,
+      // CRITICAL: Use Canvas renderer instead of SVG.
+      // This renders circle markers and rectangles directly to a
+      // <canvas> element, making them immune to CSS conflicts
+      // (Tailwind box-sizing, transitions, etc.) that cause
+      // marker displacement in the default SVG renderer.
+      preferCanvas: true,
     });
 
-    // CartoDB Dark Matter tiles - dark theme, free, no API key
+    // OpenStreetMap standard tiles - Google Maps-like light theme
+    // with full Japanese labels, terrain, and geography details.
     L.tileLayer(
-      "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+      "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
       {
         attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
-        subdomains: "abcd",
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         maxZoom: 19,
       }
     ).addTo(map.current);
 
     // Force correct layout measurement after DOM is ready
-    // This fixes marker displacement issues when the container
-    // size isn't fully resolved at initialization time.
     const m = map.current;
     requestAnimationFrame(() => {
       m.invalidateSize();
@@ -66,6 +70,10 @@ export function MapView({
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div ref={mapContainer} className={cn("w-full h-full", className)} />
+    <div
+      ref={mapContainer}
+      className={cn("w-full h-full", className)}
+      style={{ width: "100%", height: "100%" }}
+    />
   );
 }

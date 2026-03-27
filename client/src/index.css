@@ -270,24 +270,7 @@
   border-top-color: rgba(23, 23, 30, 0.92) !important;
 }
 
-/* Leaflet attribution styling for dark theme */
+/* Leaflet attribution styling */
 .leaflet-control-attribution {
-  background: rgba(15, 23, 42, 0.7) !important;
-  color: rgba(148, 163, 184, 0.7) !important;
   font-size: 9px !important;
-}
-
-.leaflet-control-attribution a {
-  color: rgba(148, 163, 184, 0.8) !important;
-}
-
-/* Leaflet zoom control dark styling */
-.leaflet-control-zoom a {
-  background: rgba(23, 23, 30, 0.85) !important;
-  color: #e2e8f0 !important;
-  border-color: rgba(255, 255, 255, 0.1) !important;
-}
-
-.leaflet-control-zoom a:hover {
-  background: rgba(30, 30, 40, 0.95) !important;
 }
