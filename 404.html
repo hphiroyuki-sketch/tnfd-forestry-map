@@ -11,11 +11,102 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
       integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
       crossorigin="" />
+    <!--
+      CRITICAL: Leaflet CSS protection.
+      This <style> block is loaded OUTSIDE of Tailwind/Vite's CSS pipeline,
+      so these rules cannot be overridden by Tailwind's cascade layers.
+      This fixes marker displacement caused by Tailwind's global resets.
+    -->
+    <style>
+      /* Reset box-sizing for all Leaflet internals */
+      .leaflet-container,
+      .leaflet-container *,
+      .leaflet-container *::before,
+      .leaflet-container *::after {
+        box-sizing: content-box !important;
+      }
+
+      /* Prevent Tailwind image rules from breaking tiles */
+      .leaflet-container img {
+        max-width: none !important;
+        max-height: none !important;
+        width: auto !important;
+        height: auto !important;
+        border-style: none !important;
+        padding: 0 !important;
+        border-width: 0 !important;
+      }
+
+      /* Prevent tile displacement */
+      .leaflet-tile {
+        border: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      /* SVG overlays (circle markers, rectangles) */
+      .leaflet-container svg {
+        max-width: none !important;
+        max-height: none !important;
+      }
+
+      /* Ensure Leaflet's popup styling */
+      .dark-popup .leaflet-popup-content-wrapper {
+        background: rgba(23, 23, 30, 0.95);
+        color: #e2e8f0;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(20px);
+        font-family: 'Noto Sans JP', sans-serif;
+      }
+
+      .dark-popup .leaflet-popup-content {
+        margin: 8px 12px;
+        font-size: 13px;
+        line-height: 1.4;
+      }
+
+      .dark-popup .leaflet-popup-tip {
+        background: rgba(23, 23, 30, 0.95);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      }
+
+      .dark-popup .leaflet-popup-close-button {
+        color: #94a3b8 !important;
+        font-size: 18px !important;
+        padding: 6px 8px !important;
+      }
+
+      .dark-popup .leaflet-popup-close-button:hover {
+        color: #e2e8f0 !important;
+      }
+
+      .dark-tooltip {
+        background: rgba(23, 23, 30, 0.92) !important;
+        color: #e2e8f0 !important;
+        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        border-radius: 8px !important;
+        padding: 6px 10px !important;
+        font-family: 'Noto Sans JP', sans-serif !important;
+        font-size: 11px !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
+      }
+
+      .dark-tooltip::before {
+        border-top-color: rgba(23, 23, 30, 0.92) !important;
+      }
+
+      .leaflet-control-attribution {
+        font-size: 9px !important;
+      }
+    </style>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
-    <script type="module" crossorigin src="/tnfd-forestry-map/assets/index-CS9VWP7O.js"></script>
-    <link rel="stylesheet" crossorigin href="/tnfd-forestry-map/assets/index-Dvpib6uh.css">
+    <script type="module" crossorigin src="/tnfd-forestry-map/assets/index-DHO3yzJ9.js"></script>
+    <link rel="stylesheet" crossorigin href="/tnfd-forestry-map/assets/index-ByhJ_CVG.css">
   </head>
 
   <body>
@@ -23,4 +114,3 @@
   </body>
 
 </html>
-
